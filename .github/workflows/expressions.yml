@@ -1,16 +1,15 @@
 name: Expressions
 
-on: release
+on: [push, release]
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Run a one-line script
-        run: echo "${VERSION}"
+      - name: Text different expressions
+        run: echo "${concat}"
         env:
-          VERSION: ${{ github.event.release.tag_name }:1}
-          VERSION2: ${{ github.event.release.tag_name }}
-          asset_path: chart.js-${{ github.event.release.tag_name }}.tgz
+          trim: ${{ github.event_name }}
+          concat: chart.js-${{ github.event_name }}.tgz
 
