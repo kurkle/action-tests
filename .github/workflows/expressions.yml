@@ -7,9 +7,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Text different expressions
+      - name: Test different expressions
         run: echo "${concat}"
         env:
-          trim: ${{ github.event_name }}
+          trim: ${{ github.event_name[1] }}
           concat: chart.js-${{ github.event_name }}.tgz
 
