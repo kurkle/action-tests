@@ -7,9 +7,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Trim version from Tag
+        id: trim
+        run: echo "::set-output name=version::${TAG:1}"
+        env: ${{ github.event_name }}
+
       - name: Test different expressions
         run: echo "${concat}"
         env:
-          trim: ${{ github.event_name[1] }}
+          version: ${{ steps.trim.outputs.version }}
           concat: chart.js-${{ github.event_name }}.tgz
-
