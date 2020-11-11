@@ -1,0 +1,33 @@
+name: Assets
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.trim.outputs.version }}
+    steps: 
+      - id: trim
+        run: echo "::set-output name=version::${TAG:1}"
+        env: 
+          TAG: ${{ github.event.release.tag_name }}
+  
+  assets:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create asset
+        run: echo test > "${asset_path}"
+        env:
+          asset_path: chart.js-${{ needs.setup.outputs.version }}.txt
+        
+      - name: Upload asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: chart.js-${{ needs.setup.outputs.version }}.txt
