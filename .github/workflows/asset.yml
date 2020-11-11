@@ -31,3 +31,5 @@ jobs:
         with:
           upload_url: ${{ github.event.release.upload_url }}
           asset_path: chart.js-${{ needs.setup.outputs.version }}.txt
+          asset_name: chart.js-${{ needs.setup.outputs.version }}.txt
+          asset_content_type: text/plain
